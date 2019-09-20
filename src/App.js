@@ -3,6 +3,7 @@ import Quotes from './Fetch.js';
 import Author from './Author/Author';
 import QuotesText from './QuotesText/QuotesText';
 import Button from './Buttons/Button';
+import Link from './Buttons/Link';
 
 import './App.css';
 import './fontello/css/fontello.css';
@@ -51,10 +52,7 @@ class App extends React.Component {
   }
 
   render () {
-    const tweeter = 
-      (<a href="twitter.com/intent/tweet" target="_blank">
-        <i className='icon-twitter'></i>
-      </a>);
+    const tweeter = <i className='icon-twitter'></i>;
   
     return (
       <div className="App">
@@ -62,7 +60,7 @@ class App extends React.Component {
           <QuotesText text={this.state.quote.quote} isHidden={this.state.isTextHidden} />
           <Author author={this.state.quote.author} isHidden={this.state.isTextHidden} />
           <div className="buttons">
-            <Button id='tweet-quote' text={tweeter} />
+            <Link id='tweet-quote' text={tweeter} link='twitter.com/intent/tweet' />
             <Button id='new-quote' text='New Quote' onClick={this.takeQuotes} />
           </div>
         </div>
