@@ -1,0 +1,22 @@
+.button {
+  background: transparent;  
+  border: 1.4px solid var(--bgColor);
+  border-radius: 3px;
+  padding: .5rem;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.2rem;
+  color: var(--tColor);
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+  background-color: var(--bgColor);
+  cursor: pointer;
+}
+
+.button:focus {
+  outline-color: var(--bgColor);
+  outline-style: auto;
+  outline-width: .5px;
+}
+

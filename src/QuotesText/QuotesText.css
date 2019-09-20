@@ -1,0 +1,15 @@
+#text {
+  font-family: 'Kalam', cursive;
+  font-size: 2rem;
+  text-align: justify;
+  line-height: 2.3rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.quote {
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
