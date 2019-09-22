@@ -12,7 +12,8 @@ class App extends React.Component {
   constructor (props) {
     super(props);
     this.state = { 
-      quote: {},
+      quotes: [],
+      currNum: 0,
       backgroundColor: ['#dbc08a', '#c9a14f', '#c3963c', '#d6b676', '#cca353', '#c4963b'],
       textColor: ['#433d3d', '#6b6161', '#867979', '#786d6d', '#5e5555', '#363030'],
       nr: 1,
@@ -24,17 +25,27 @@ class App extends React.Component {
   }
   
   componentDidMount() {
-    this.takeQuotes();
+    Quotes.take()
+    .then( quote => {
+      this.setState({ quotes: quote });
+    })
+    this.setState(prevState => {
+      return {currNum: prevState.currNum + 1}
+   });
   }
 
   takeQuotes() {
-    this.setState({ isTextHidden: true });
     this.changeBg();
-    Quotes.take()
-    .then( quote => {
-      this.setState( {quote: quote} )
-      this.setState({ isTextHidden: false });
-    })
+    this.setState(prevState => {
+      return {currNum: prevState.currNum + 1}
+   });
+    if(this.state.currNum===19) {
+      Quotes.take()
+      .then( quote => {
+        this.setState({ quotes: quote });
+      })
+    this.setState({ currNum:0 });
+    }
   }
 
   changeBg() {
@@ -53,12 +64,13 @@ class App extends React.Component {
 
   render () {
     const tweeter = <i className='icon-twitter'></i>;
-  
     return (
       <div className="App">
         <div  id="quote-box">
-          <QuotesText text={this.state.quote.quote} isHidden={this.state.isTextHidden} />
-          <Author author={this.state.quote.author} isHidden={this.state.isTextHidden} />
+          {this.state.quotes.length > 0 ? <QuotesText text={this.state.quotes[this.state.currNum].quote} 
+                      isHidden={this.state.isTextHidden} /> : '...loading'}
+          {this.state.quotes.length > 0 && <Author author={this.state.quotes[this.state.currNum].author} 
+          isHidden={this.state.isTextHidden} /> }
           <div className="buttons">
             <Link id='tweet-quote' text={tweeter} link='twitter.com/intent/tweet' />
             <Button id='new-quote' text='New Quote' onClick={this.takeQuotes} />

@@ -1,6 +1,6 @@
 const Quotes = {
   take () {
-    const url = `https://programming-quotes-api.herokuapp.com/quotes/random`;
+    const url = `https://programming-quotes-api.herokuapp.com/quotes/page/2`;
     
     return fetch(url)
       .then ( response => {
@@ -10,10 +10,12 @@ const Quotes = {
           throw Error('Request failed!');
         }
         }).then ((jsonResponse)=>{
-          return {
-            quote: jsonResponse.en,
-            author: jsonResponse.author
-          };
+          return jsonResponse.map (res => {
+            return {
+              quote: res.en,
+              author: res.author
+            };
+          })
         })
       .catch(e => e.message)
   }
