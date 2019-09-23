@@ -3,13 +3,10 @@ import React from 'react';
 import './Button.css';
 
 const Button = (props) => {
-  const handleClick = () => {
-    props.onClick();
-    // props.secondOnClick();
-  }
-
     return (
-      <button className="button" id={props.id} onClick={handleClick} >
+      <button className="button" 
+              id={props.id} 
+              onClick={props.onClick} >
         {props.text}
       </button>
     );

@@ -1,6 +1,6 @@
 const Quotes = {
-  take () {
-    const url = `https://programming-quotes-api.herokuapp.com/quotes/page/2`;
+  take (nr) {
+    const url = `https://programming-quotes-api.herokuapp.com/quotes/page/${nr}`;
     
     return fetch(url)
       .then ( response => {

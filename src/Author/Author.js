@@ -4,7 +4,7 @@ import './Author.css';
 
 const Author = (props) => {
     return (
-      <div id="author" className={`text ${props.isHidden ? " hidden" : ""}`}>
+      <div id="author" className={`${props.isHidden ? " hidden" : "text"}`}>
        - {props.author}
       </div>
     );

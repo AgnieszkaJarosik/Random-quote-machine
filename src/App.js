@@ -25,26 +25,36 @@ class App extends React.Component {
   }
   
   componentDidMount() {
-    Quotes.take()
+    Quotes.take(this.state.nr)
     .then( quote => {
-      this.setState({ quotes: quote });
+      this.setState(prevState => {
+        return {currNum: prevState.currNum + 1,
+                quotes: quote}
+     });
     })
-    this.setState(prevState => {
-      return {currNum: prevState.currNum + 1}
-   });
   }
 
   takeQuotes() {
     this.changeBg();
-    this.setState(prevState => {
-      return {currNum: prevState.currNum + 1}
-   });
-    if(this.state.currNum===19) {
-      Quotes.take()
+    
+    if(this.state.currNum===(this.state.quotes.length-1)) {
+      Quotes.take(this.state.nr)
       .then( quote => {
-        this.setState({ quotes: quote });
+        this.setState({ isTextHidden: true })
+        setTimeout( () => {
+          this.setState({ isTextHidden: false,
+                          quotes: quote,
+                          currNum: 0 })
+        }, 500);
       })
-    this.setState({ currNum:0 });
+   } else {
+      this.setState({ isTextHidden: true });
+      setTimeout( () => {
+        this.setState( prevState => {
+          return { isTextHidden: false,
+                  currNum: prevState.currNum + 1 }
+        })
+      }, 500);
     }
   }
 
@@ -67,13 +77,23 @@ class App extends React.Component {
     return (
       <div className="App">
         <div  id="quote-box">
-          {this.state.quotes.length > 0 ? <QuotesText text={this.state.quotes[this.state.currNum].quote} 
-                      isHidden={this.state.isTextHidden} /> : '...loading'}
-          {this.state.quotes.length > 0 && <Author author={this.state.quotes[this.state.currNum].author} 
-          isHidden={this.state.isTextHidden} /> }
+          {this.state.quotes.length > 0 ? 
+            <QuotesText text={this.state.quotes[this.state.currNum].quote} 
+                        isHidden={this.state.isTextHidden} /> 
+            : '...loading'}
+
+          {this.state.quotes.length > 0 && 
+            <Author author={this.state.quotes[this.state.currNum].author} 
+                    isHidden={this.state.isTextHidden} /> }
+
           <div className="buttons">
-            <Link id='tweet-quote' text={tweeter} link='twitter.com/intent/tweet' />
-            <Button id='new-quote' text='New Quote' onClick={this.takeQuotes} />
+            <Link id='tweet-quote' 
+                  text={tweeter} 
+                  link='twitter.com/intent/tweet' />
+
+            <Button id='new-quote' 
+                    text='New Quote' 
+                    onClick={this.takeQuotes}  />
           </div>
         </div>
       </div>
